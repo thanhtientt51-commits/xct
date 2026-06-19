@@ -27,7 +27,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
 .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 14px rgba(88,101,242,.25)}
 .btn-primary:hover{transform:translateY(-1px)}.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--sub)}
 .btn-ghost:hover{border-color:var(--accent);color:var(--text)}
-.explain-box{background:#fafafa;border-radius:12px;border:1px solid var(--border);padding:20px;max-height:420px;overflow-y:auto;font-size:.82em;line-height:1.8;margin-top:20px}
+.explain-box{background:#fafafa;border-radius:12px;border:1px solid var(--border);padding:20px;height:420px;overflow-y:auto;font-size:.82em;line-height:1.8;margin-top:20px}
 .explain-box::-webkit-scrollbar{display:none}.explain-box{-ms-overflow-style:none;scrollbar-width:none}
 .explain-box h4{font-size:.9em;margin-bottom:8px}
 .footer{text-align:center;padding:30px;color:#b0b0b8;font-size:.65em;border-top:1px solid var(--border)}
@@ -50,8 +50,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
     <div class="options" id="opts"></div>
     <div class="btn-row"><button class="btn btn-primary" id="btnSub" onclick="submit()" disabled>提交答案</button><button class="btn btn-ghost">换一题</button></div>
     <div class="explain-box" id="explainBox">
-      
-    </div>
+        <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--sub);font-size:.85em">提交答案后，AI解析将显示在这里</div>
+      </div>
   </div>
 </div>
 </div>
