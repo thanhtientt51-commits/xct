@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行测刷题 · AI错题解析</title>
+<style>
+:root{--bg:#f5f5f7;--card:#fff;--text:#1d1d1f;--sub:#86868b;--accent:#5865f2;--accent2:#8b5cf6;--border:rgba(0,0,0,.06);--radius:16px;--green:#16a34a;--red:#dc2626}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.5}
+.nav{position:sticky;top:0;z-index:100;background:rgba(245,245,247,.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px}
+.nav-inner{max-width:1300px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:52px}
+.nav-logo{display:flex;align-items:center;gap:8px;font-size:.9em;font-weight:700;letter-spacing:-.2px}
+.nav-logo .icon{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:7px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.85em}
+.nav-badge{font-size:.68em;font-weight:600;padding:5px 12px;border-radius:20px;background:#fff;border:1px solid var(--border);color:var(--sub)}
+.main{max-width:1300px;margin:0 auto;padding:20px 24px 40px;display:grid;grid-template-columns:300px 1fr;gap:20px}
+.side-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:18px;margin-bottom:12px}
+.side-card h3{font-size:.75em;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--sub);margin-bottom:12px}
+.cat-item{padding:10px 14px;border-radius:10px;font-size:.82em;font-weight:600;cursor:pointer;transition:.2s;border:1px solid transparent;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.cat-item:hover{background:#f0f4ff;color:var(--accent)}
+.cat-item.active{background:#f0f4ff;color:var(--accent);border-color:var(--accent)}
+.cat-item .count{font-size:.72em;color:var(--sub)}
+.wrong-item{padding:10px 12px;border-radius:8px;font-size:.74em;margin-bottom:4px;background:#fef2f2;cursor:pointer;border-left:3px solid var(--red);transition:.2s}
+.wrong-item:hover{background:#fee2e2}
+.main-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);padding:32px 28px;min-height:500px}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.q-meta{font-size:.72em;color:var(--sub)}
+.q-type-badge{padding:3px 10px;border-radius:8px;font-size:.68em;font-weight:600;background:#f0f4ff;color:var(--accent)}
+.q-text{font-size:1.05em;line-height:1.8;margin-bottom:24px;font-weight:500}
+.options{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.opt{padding:14px 18px;border:2px solid var(--border);border-radius:12px;font-size:.9em;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:10px}
+.opt:hover{border-color:var(--accent)}
+.opt.selected{border-color:var(--accent);background:#f0f4ff}
+.opt.correct{border-color:var(--green);background:#f0fdf4}.opt.wrong{border-color:var(--red);background:#fef2f2}
+.opt .letter{width:28px;height:28px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85em;flex-shrink:0}
+.opt.selected .letter{background:var(--accent);color:#fff}.opt.correct .letter{background:var(--green);color:#fff}.opt.wrong .letter{background:var(--red);color:#fff}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{padding:10px 22px;border-radius:22px;font-size:.84em;font-weight:700;cursor:pointer;border:0;transition:.25s;display:inline-flex;align-items:center;gap:6px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 14px rgba(88,101,242,.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(88,101,242,.35)}
+.btn-primary:disabled{opacity:.4;transform:none}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--sub)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--text)}
+.explain-box{margin-top:20px;padding:20px;background:#fafafa;border-radius:12px;border:1px solid var(--border);display:none;font-size:.82em;line-height:1.8}
+.explain-box.show{display:block}
+.explain-box h4{font-size:.9em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.footer{text-align:center;padding:30px;color:#b0b0b8;font-size:.65em;border-top:1px solid var(--border)}
+@media(max-width:900px){.main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <div class="icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      行测刷题 · AI错题解析
+    </div>
+    <div class="nav-badge">花生十三 + DeepSeek 双解析</div>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="side-card">
+      <h3>五大模块</h3>
+      <div class="cat-item active">判断推理 <span class="count">7题</span></div>
+      <div class="cat-item">言语理解 <span class="count">5题</span></div>
+      <div class="cat-item">数量关系 <span class="count">5题</span></div>
+      <div class="cat-item">资料分析 <span class="count">4题</span></div>
+      <div class="cat-item">常识判断 <span class="count">5题</span></div>
+    </div>
+    <div class="side-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <h3 style="margin-bottom:0">错题本</h3>
+        <button class="btn btn-ghost" style="font-size:.68em;padding:4px 10px">📥 导出Word</button>
+      </div>
+      <div style="max-height:300px;overflow-y:auto">
+        <div class="wrong-item">
+          <div style="font-weight:600;margin-bottom:2px">2,4,8,16,32,?</div>
+          <div style="font-size:.85em;color:var(--sub)">判断推理 · 你的:B → 正确:C</div>
+        </div>
+        <div class="wrong-item">
+          <div style="font-weight:600;margin-bottom:2px">所有鸟都会飞，企鹅是鸟...</div>
+          <div style="font-size:.85em;color:var(--sub)">判断推理 · 你的:D → 正确:A</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="main-card">
+      <div class="q-header">
+        <div class="q-meta"><span class="q-type-badge">判断推理</span> 第 3 题</div>
+        <button class="btn btn-ghost" style="font-size:.72em;padding:4px 12px">下一题 →</button>
+      </div>
+      <div class="q-text">甲乙丙三人中只有一人会游泳。甲说：我会。乙说：我不会。丙说：甲不会。如果三人中只有一人说了真话，那么会游泳的是？</div>
+      <div class="options">
+        <div class="opt"><span class="letter">A</span>甲</div>
+        <div class="opt selected"><span class="letter">B</span>乙</div>
+        <div class="opt"><span class="letter">C</span>丙</div>
+        <div class="opt"><span class="letter">D</span>无法确定</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary">提交答案</button>
+        <button class="btn btn-ghost">换一题</button>
+      </div>
+      <div class="explain-box show">
+        <h4>🥜 花生十三 · 口诀</h4>
+        <div style="border-left:3px solid var(--accent);padding-left:14px;margin-bottom:16px;line-height:1.8;color:#444">
+          🔑突破口：找矛盾对子——甲和丙的话互相矛盾<br>
+          💡思路：矛盾必有一真一假，真话就在矛盾中，乙说的假话→乙会游泳<br>
+          ⚠️易错：不要逐个假设，用矛盾法三秒出答案<br>
+          📌口诀：矛盾对子抓真话，其余全假
+        </div>
+        <h4>🤖 DeepSeek · 详解</h4>
+        <div style="line-height:1.8;color:#555">
+          考点：真假话推理（矛盾法）<br><br>
+          解题步骤：<br>
+          1. 找矛盾：甲说"我会"和丙说"甲不会"互相矛盾，必有一真一假<br>
+          2. 因为只有一人说真话，且真话在矛盾对中，所以乙一定说假话<br>
+          3. 乙说"我不会"是假的，所以乙会游泳<br><br>
+          排除法：A甲（×矛盾未解）C丙（×与矛盾无关）D无法确定（×可推理出）<br><br>
+          通用解法：真假话问题优先找矛盾对子，矛盾确定真话范围，其余全部为假，直接推导答案
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">AI解析由DeepSeek驱动 · 花生十三解题方法论 · 仅供练习参考</footer>
+
+</body>
+</html>
