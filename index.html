@@ -43,7 +43,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
     <div class="cat-item active" onclick="pick('判断推理',this)">判断推理</div><div class="cat-item" onclick="pick('言语理解',this)">言语理解</div><div class="cat-item" onclick="pick('数量关系',this)">数量关系</div><div class="cat-item" onclick="pick('资料分析',this)">资料分析</div><div class="cat-item" onclick="pick('常识判断',this)">常识判断</div>
   </div>
   <div class="side-card">
-    <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin-bottom:0">错题本</h3><button class="btn btn-ghost" style="font-size:.68em;padding:4px 10px">📥 导出Word</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin-bottom:0">错题本</h3><button class="btn btn-ghost" style="font-size:.68em;padding:4px 10px">📥 导出Word</button></div><div id="wrongList" style="overflow-y:auto;flex:1"><div style="font-size:.7em;padding:20px;text-align:center;color:var(--sub)">暂无错题</div></div>
   </div>
 </div>
 <div>
@@ -51,7 +51,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei
     <div class="q-header"><span class="q-type-badge" id="qType">判断推理</span><button class="btn btn-ghost" style="font-size:.72em;padding:4px 12px">下一题 →</button></div>
     <div class="q-text" id="qText">加载中...</div>
     <div class="options" id="opts"></div>
-    <div class="btn-row"><button class="btn btn-primary" id="btnSub" onclick="submit()" disabled>提交答案</button><button class="btn btn-ghost" onclick="addToWrong()">加入错题</button><button class="btn btn-ghost">换一题</button></div>
+    <div class="btn-row"><button class="btn btn-primary" id="btnSub" onclick="submit()" disabled>提交答案</button><button class="btn btn-ghost">换一题</button></div>
     <div class="explain-box" id="explainBox">
         <div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--sub);font-size:.85em">提交答案后，AI解析将显示在这里</div>
       </div>
